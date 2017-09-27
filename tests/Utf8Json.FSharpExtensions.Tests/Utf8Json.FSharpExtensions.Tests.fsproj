@@ -6,6 +6,7 @@
   <ItemGroup>
     <Compile Include="Helper.fs" />
     <Compile Include="RecordTest.fs" />
+    <Compile Include="OptionTest.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
