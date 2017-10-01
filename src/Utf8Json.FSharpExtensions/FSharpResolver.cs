@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Utf8Json.Formatters;
 using Microsoft.FSharp.Core;
+using Microsoft.FSharp.Collections;
 using Utf8Json.FSharp.Formatters;
 
 namespace Utf8Json.FSharp
@@ -31,6 +32,13 @@ namespace Utf8Json.FSharp
 
     internal static class FSharpGetFormatterHelper
     {
+        static readonly Dictionary<Type, Type> formatterMap = new Dictionary<Type, Type>()
+        {
+              {typeof(FSharpList<>), typeof(FSharpListFormatter<>)},
+              {typeof(FSharpMap<,>), typeof(FSharpMapFormatter<,>)},
+              {typeof(FSharpSet<>), typeof(FSharpSetFormatter<>)}
+        };
+
         internal static object GetFormatter(Type t)
         {
             var ti = t.GetTypeInfo();
@@ -39,7 +47,12 @@ namespace Utf8Json.FSharp
             {
                 var genericType = ti.GetGenericTypeDefinition();
 
-                if (genericType.GetTypeInfo().IsFSharpOption())
+                Type formatterType;
+                if (formatterMap.TryGetValue(genericType, out formatterType))
+                {
+                    return CreateInstance(formatterType, ti.GenericTypeArguments);
+                }
+                else if (genericType.GetTypeInfo().IsFSharpOption())
                 {
                     return CreateInstance(typeof(FSharpOptionFormatter<>), new[] { ti.GenericTypeArguments[0] });
                 }
