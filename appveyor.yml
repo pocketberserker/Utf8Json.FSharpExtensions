@@ -1,0 +1,22 @@
+version: 0.1.0.{build}
+
+image: Visual Studio 2017
+
+branches:
+  except:
+    - gh-pages
+
+skip_tags: true
+
+skip_commits:
+  message: \[(ci skip|skip ci)\].*
+
+clone_depth: 50
+
+test: off
+
+build_script:
+- cmd: dotnet restore
+- cmd: dotnet test ./tests/Utf8Json.FSharpExtensions.Tests/Utf8Json.FSharpExtensions.Tests.fsproj
+- cmd: dotnet test ./tests/Utf8Json.FSharpExtensions.NET.Tests/Utf8Json.FSharpExtensions.NET.Tests.fsproj
+
