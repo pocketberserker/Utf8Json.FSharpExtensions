@@ -5,3 +5,33 @@
 
 Utf8Json.FSharpExtensions is a [Utf8Json](https://github.com/neuecc/Utf8Json) extension library for F#.
 
+## Usage
+
+```fsharp
+open Utf8Json
+open Utf8Json.Resolvers
+open Utf8Json.FSharp
+
+CompositeResolver.RegisterAndSetAsDefault(
+  FSharpResolver.Instance,
+  StandardResolver.Instance
+)
+
+type Person = {
+  Age: int
+  FirstName: string
+  LastName: string
+  MiddleName: string option
+}
+
+let p = {
+  Age = 99
+  FirstName = "foo"
+  LastName = "buz"
+  MiddleName = Some "bar"
+}
+
+let result = JsonSerializer.Serialize(p)
+let p2 = JsonSerializer.Deserialize<Person>(result)
+```
+
