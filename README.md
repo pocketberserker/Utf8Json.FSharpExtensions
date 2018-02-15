@@ -15,7 +15,7 @@ open Utf8Json.FSharp
 
 CompositeResolver.RegisterAndSetAsDefault(
   FSharpResolver.Instance,
-  StandardResolver.Instance
+  StandardResolver.Default
 )
 
 type Person = {
