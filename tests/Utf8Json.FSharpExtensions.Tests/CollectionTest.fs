@@ -27,10 +27,10 @@ let ``fsharp map`` () =
 [<Fact>]
 let ``fsharp set`` () =
 
-  let input = Seq.empty<int>
+  let input = Set.empty<int>
   let actual = convert input
   Assert.Equal(box input, box actual)
 
-  let input = Seq.singleton 1
+  let input = Set.singleton 1
   let actual = convert input
   Assert.Equal(box input, box actual)
